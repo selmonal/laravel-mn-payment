@@ -1,0 +1,79 @@
+<?php
+/**
+ * User: selmonal
+ * Date: 12/13/15
+ * Time: 8:09 PM
+ */
+
+namespace Selmonal\Payment;
+
+
+use App;
+
+class PaymentManager implements GatewayInterface
+{
+    /**
+     * @var GatewayInterface
+     */
+    protected $gateway;
+
+    /**
+     * @param GatewayInterface $gateway
+     */
+    public function setGateway(GatewayInterface $gateway)
+    {
+        $this->gateway = $gateway;
+    }
+
+    /**
+     * @param $gatewayName
+     * @return $this
+     * @throws UnsupportedPaymentGatewayException
+     */
+    public function using($gatewayName)
+    {
+        $this->setGateway($this->makeGatewayUsingName($gatewayName));
+
+        return $this;
+    }
+
+    /**
+     * @return GatewayInterface
+     */
+    public function getGateway()
+    {
+        return $this->gateway;
+    }
+
+    /**
+     * @param  BillableInterface $billable
+     * @return RedirectForm
+     */
+    function makeRequestForm(BillableInterface $billable)
+    {
+        return $this->getGateway()->makeRequestForm($billable);
+    }
+
+    /**
+     * @param BillableInterface $billable
+     * @param array $params
+     * @return ResponseInterface
+     */
+    function handleResponse(BillableInterface $billable, $params = [])
+    {
+        return $this->getGateway()->handleResponse($billable, $params);
+    }
+
+    /**
+     * @param $gatewayName
+     * @throws UnsupportedPaymentGatewayException
+     */
+    public function makeGatewayUsingName($gatewayName)
+    {
+        if ($gatewayName == 'golomt') {
+            return App::make('Selmonal\Payment\Gateways\Golomt\Gateway');
+        }
+
+        throw new UnsupportedPaymentGatewayException($gatewayName);
+    }
+}
