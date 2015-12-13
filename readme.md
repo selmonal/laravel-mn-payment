@@ -134,7 +134,7 @@ Usage
         }
         elseif($response->getStatus == ResponseInterface::STATUS_CANCELLED_BY_CARDHOLDER) {
 
-            // Гүйлгээг эжэмшигч цуцласан.
+            // Гүйлгээг төлбөр төлөгч цуцласан.
             echo $resonse->getMessage();
         }
         elseif($response->getStatus == ResponseInterface::STATUS_FAILED) {
