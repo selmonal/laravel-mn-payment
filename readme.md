@@ -1,4 +1,4 @@
-PHP Boilerplate
+Laravel MN Payment
 ===============
 
 Requirements
