@@ -18,6 +18,16 @@ class PaymentManager implements GatewayInterface
     protected $gateway;
 
     /**
+     * PaymentManager constructor.
+     *
+     * @param GatewayInterface $gateway
+     */
+    public function __construct(GatewayInterface $gateway = null)
+    {
+        $this->gateway = $gateway;
+    }
+
+    /**
      * @param GatewayInterface $gateway
      */
     public function setGateway(GatewayInterface $gateway)

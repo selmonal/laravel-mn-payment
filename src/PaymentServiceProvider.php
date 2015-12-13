@@ -36,5 +36,11 @@ class PaymentServiceProvider extends ServiceProvider
                 Config::get('payment.gateways.golomt.wsdl')
             );
         });
+
+        $this->app->bindShared('Selmonal\Payment\PaymentManager', function() {
+            $manager = new PaymentManager();
+
+            return $manager->using(Config::get('payment.gateways.default'));
+        });
     }
 }
