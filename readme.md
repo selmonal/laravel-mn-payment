@@ -83,7 +83,7 @@ Usage
         public function getLangCode() { return 'mn'; }
     }
 
-Төлбөр төлөх Банкны хуудас уруу үсрэх.
+Төлбөр төлөх банкны хуудас уруу үсрэх.
 
     Route::get('orders/create', function() {
 
@@ -93,7 +93,7 @@ Usage
 
         $form = Payment::using('golomt')->makeRequestForm($order);
 
-        return $form->render();
+        return $form->render(); // Энд шууд автоматаар redirect хийх html кодыг зурах болно.
 
     });
 
