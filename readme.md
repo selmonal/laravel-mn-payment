@@ -1,4 +1,4 @@
-Laravel MN Payment
+Laravel 4.2.* MN Payment
 ===============
 
 Requirements
