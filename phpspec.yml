@@ -1,0 +1,5 @@
+suites:
+  payment_suite:
+    namespace: Selmonal\Payment
+    psr4_prefix: Selmonal\Payment
+formatter.name: pretty
