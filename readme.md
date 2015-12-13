@@ -113,6 +113,7 @@ Usage
 
             try {
 
+                // Гүйлгээний лавлагаа хийх.
                 $response->validate();
 
                 $order->is_paid = true;
@@ -127,25 +128,25 @@ Usage
                 // soap ийн тохиргоо буруу хийгдсэнээс болж үүснэ.
             }
         }
-        elseif($response->getStatus == ResponseInterface::STATUS_DECLINED) {
+        elseif($response->getStatus() == ResponseInterface::STATUS_DECLINED) {
 
             // Гүйлгээ амжилтгүй болсон
-            echo $resonse->getMessage();
+            echo $response->getMessage();
         }
-        elseif($response->getStatus == ResponseInterface::STATUS_CANCELLED_BY_CARDHOLDER) {
+        elseif($response->getStatus() == ResponseInterface::STATUS_CANCELLED_BY_CARDHOLDER) {
 
             // Гүйлгээг төлбөр төлөгч цуцласан.
-            echo $resonse->getMessage();
+            echo $response->getMessage();
         }
-        elseif($response->getStatus == ResponseInterface::STATUS_FAILED) {
+        elseif($response->getStatus() == ResponseInterface::STATUS_FAILED) {
 
             // Гүйлгээ хийх явцад алдаа гарсан.
-            echo $resonse->getMessage();
+            echo $response->getMessage();
         }
-        elseif($response->getStatus == ResponseInterface::STATUS_TIMED_OUT) {
+        elseif($response->getStatus() == ResponseInterface::STATUS_TIMED_OUT) {
 
             // Төлбөр төлөх хугацаа дууссан.
-            echo $resonse->getMessage();
+            echo $response->getMessage();
         }
     });
 
