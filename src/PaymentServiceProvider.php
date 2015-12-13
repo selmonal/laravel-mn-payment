@@ -7,7 +7,6 @@
 
 namespace Selmonal\Payment;
 
-
 use Config;
 use Illuminate\Support\ServiceProvider;
 use Selmonal\Payment\Gateways\Golomt\Gateway as GolomtGateway;
@@ -22,14 +21,14 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bindShared('Selmonal\Payment\Gateways\Golomt\Gateway', function() {
+        $this->app->bindShared('Selmonal\Payment\Gateways\Golomt\Gateway', function () {
             return new GolomtGateway(
                 Config::get('payment.gateways.golomt.merchant_id'),
                 Config::get('payment.gateways.golomt.request_action')
             );
         });
 
-        $this->app->bindShared('Selmonal\Payment\Gateways\Golomt\TransactionValidator', function() {
+        $this->app->bindShared('Selmonal\Payment\Gateways\Golomt\TransactionValidator', function () {
             return new TransactionValidator(
                 Config::get('payment.gateways.golomt.soap_username'),
                 Config::get('payment.gateways.golomt.soap_password'),
@@ -37,7 +36,7 @@ class PaymentServiceProvider extends ServiceProvider
             );
         });
 
-        $this->app->bindShared('Selmonal\Payment\PaymentManager', function() {
+        $this->app->bindShared('Selmonal\Payment\PaymentManager', function () {
             $manager = new PaymentManager();
 
             return $manager->using(Config::get('payment.gateways.default'));

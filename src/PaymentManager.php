@@ -7,7 +7,6 @@
 
 namespace Selmonal\Payment;
 
-
 use App;
 
 class PaymentManager implements GatewayInterface
@@ -59,7 +58,7 @@ class PaymentManager implements GatewayInterface
      * @param  BillableInterface $billable
      * @return RedirectForm
      */
-    function makeRequestForm(BillableInterface $billable)
+    public function makeRequestForm(BillableInterface $billable)
     {
         return $this->getGateway()->makeRequestForm($billable);
     }
@@ -69,7 +68,7 @@ class PaymentManager implements GatewayInterface
      * @param array $params
      * @return ResponseInterface
      */
-    function handleResponse(BillableInterface $billable, $params = [])
+    public function handleResponse(BillableInterface $billable, $params = [])
     {
         return $this->getGateway()->handleResponse($billable, $params);
     }

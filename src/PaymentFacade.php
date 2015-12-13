@@ -7,7 +7,6 @@
 
 namespace Selmonal\Payment;
 
-
 use Illuminate\Support\Facades\Facade;
 
 class PaymentFacade extends Facade

@@ -4,16 +4,16 @@ namespace Selmonal\Payment;
 
 class RedirectForm
 {
-	private $action;
+    private $action;
 
-	private $method;
+    private $method;
 
-	private $params = [];
+    private $params = [];
 
     public function __construct($action, $method = 'POST')
     {
-    	$this->action = $action;
-    	$this->method = $method;
+        $this->action = $action;
+        $this->method = $method;
     }
 
     public function putParam($key, $value)

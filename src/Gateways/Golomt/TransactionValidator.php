@@ -47,17 +47,17 @@ class TransactionValidator
 
         $result = $client->call('Get_new', $this->getParams($trans_key, $amount, $date), '', '', false, true);
 
-        if(is_object($result) && $result->fault) {
+        if (is_object($result) && $result->fault) {
             throw new SoupClientErrorException(print_r($result));
         }
 
-        if($error = $client->getError()) {
+        if ($error = $client->getError()) {
             throw new SoupClientErrorException($error);
         }
 
         $responseCode = $result['Get_newResult'];
 
-        if(strlen($responseCode) != 6) {
+        if (strlen($responseCode) != 6) {
             throw new TransactionValidationException(
                 $this->getResponseMessage($responseCode), $responseCode
             );
@@ -76,7 +76,7 @@ class TransactionValidator
     {
         $client = new \nusoap_client($this->wsdl, 'wsdl');
 
-        if(! $client->getError()) {
+        if (! $client->getError()) {
             return $client;
         }
 
@@ -98,7 +98,7 @@ class TransactionValidator
             'v1' => $this->password,
             'v2' => $trans_key,
             'v3' => is_null($date) ? date('Ymd') : $date,
-            'v4' => number_format($amount , 2, '.', '')
+            'v4' => number_format($amount, 2, '.', '')
         ];
     }
 
@@ -108,7 +108,7 @@ class TransactionValidator
      */
     private function getResponseMessage($responseCode)
     {
-        switch($responseCode) {
+        switch ($responseCode) {
             case 2: return 'Guilgee amjiltgui bolson baina.'; break;
             case 0: return 'Iim dugaar bolon guilgeenii duntei guilgee baazad burtgegdeegui baina.'; break;
             case 3: return 'Hereglegchiin ner esvel nuuts ug buruu baina.'; break;

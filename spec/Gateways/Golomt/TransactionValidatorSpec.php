@@ -7,12 +7,12 @@ use Prophecy\Argument;
 
 class TransactionValidatorSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith('username', 'password', 'https://soup.golomt.mn/');
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Selmonal\Payment\Gateways\Golomt\TransactionValidator');
     }

@@ -7,7 +7,6 @@
 
 namespace Selmonal\Payment\Exceptions;
 
-
 class UnsupportedPaymentGatewayException extends \Exception
 {
 }

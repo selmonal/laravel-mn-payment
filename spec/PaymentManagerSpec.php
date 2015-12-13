@@ -8,18 +8,18 @@ use Selmonal\Payment\GatewayInterface;
 
 class PaymentManagerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Selmonal\Payment\PaymentManager');
     }
 
-    function it_can_change_gateway(GatewayInterface $gateway)
+    public function it_can_change_gateway(GatewayInterface $gateway)
     {
         $this->setGateway($gateway);
         $this->getGateway()->shouldEqual($gateway);
     }
 
-    function it_is_a_gateway()
+    public function it_is_a_gateway()
     {
         $this->shouldHaveType('Selmonal\Payment\GatewayInterface');
     }

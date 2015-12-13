@@ -7,8 +7,6 @@
 
 namespace Selmonal\Payment\Exceptions;
 
-
 class TransactionValidationException extends \Exception
 {
-
 }
