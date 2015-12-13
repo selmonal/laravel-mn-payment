@@ -10,10 +10,9 @@ Requirements
 Installation
 ---------------
 
-Composer ашиглан суурьлуулна.
-[Composer](http://getcomposer.org/).
+[Composer](http://getcomposer.org/) ашиглан суурьлуулах.
 
-    $ composer create-project selmonal/laravel-mn-payment dev-master
+    $ composer require selmonal/laravel-mn-payment dev-master
 
 Тохиргооны app.php файлд дараахь ServiceProvider - ийг бүртгэнэ.
 
