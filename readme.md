@@ -106,7 +106,7 @@ Usage
         $order = Order::find(Input::get('trans_number');
 
         $response = Payment::using('golomt')->handleResponse($order, Input::only(
-            'trans_number', 'success', 'error_code', 'error_desc', 'card_number''
+            'trans_number', 'success', 'error_code', 'error_desc', 'card_number'
         ));
 
         if($response->getStatus() == ResponseInterface::STATUS_APPROVED) {
