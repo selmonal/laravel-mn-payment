@@ -5,8 +5,7 @@ namespace Selmonal\Payment;
 interface GatewayInterface
 {
     /**
-     * Make a RedirectForm for the given
-     * billable.
+     * Банкны терминал хуудас уруу үсрэх формыг буцаана.
      *
      * @param  BillableInterface $billable
      * @return RedirectForm
@@ -14,7 +13,7 @@ interface GatewayInterface
     public function makeRequestForm(BillableInterface $billable);
 
     /**
-     * Handle response for the given billable.
+     * Банкнаас буцаж ирсэн хариултыг боловсруулна.
      *
      * @param BillableInterface $billable
      * @param array $params

@@ -10,23 +10,23 @@ use Mockery as m;
 
 class PaymentManagerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('Selmonal\Payment\PaymentManager');
     }
 
-    function it_can_change_gateway(GatewayInterface $gateway)
+    public function it_can_change_gateway(GatewayInterface $gateway)
     {
         $this->setGateway($gateway);
         $this->getGateway()->shouldEqual($gateway);
     }
 
-    function it_is_a_gateway()
+    public function it_is_a_gateway()
     {
         $this->shouldHaveType('Selmonal\Payment\GatewayInterface');
     }
 
-    function it_can_use_golomt()
+    public function it_can_use_golomt()
     {
         App::shouldReceive('make')
             ->with('Selmonal\Payment\Gateways\Golomt\Gateway')
@@ -37,7 +37,7 @@ class PaymentManagerSpec extends ObjectBehavior
         $this->getGateway()->shouldEqual($gateway);
     }
 
-    function it_should_throw_an_exception_when_an_invalid_gateway_provided_to_using()
+    public function it_should_throw_an_exception_when_an_invalid_gateway_provided_to_using()
     {
         $this->shouldThrow('Selmonal\Payment\Exceptions\UnsupportedPaymentGatewayException')->duringUsing('invalid-gateway');
     }

@@ -9,6 +9,8 @@ use Selmonal\Payment\ResponseInterface;
 class Response implements ResponseInterface
 {
     /**
+     * Error codes.
+     *
      * @var array
      */
     private static $errorStatuses = [
@@ -26,13 +28,57 @@ class Response implements ResponseInterface
         ]
     ];
 
+    /**
+     * The billable instance.
+     *
+     * @var BillableInterface
+     */
     private $billable;
+
+    /**
+     * Success status. 0,1
+     *
+     * @var integer
+     */
     private $success;
+
+    /**
+     * Response error code.
+     *
+     * @var string
+     */
     private $errorCode;
+
+    /**
+     * Response error description.
+     *
+     * @var string
+     */
     private $errorDescription;
+
+    /**
+     * Response card number.
+     *
+     * @var string
+     */
     private $cardNumber;
+
+    /**
+     * The validator instance.
+     *
+     * @var TransactionValidator
+     */
     private $validator;
 
+    /**
+     * Response Constructor.
+     *
+     * @param BillableInterface $billable
+     * @param $success
+     * @param $errorCode
+     * @param $errorDescription
+     * @param $cardNumber
+     */
     public function __construct(BillableInterface $billable, $success, $errorCode, $errorDescription, $cardNumber)
     {
         $this->billable = $billable;
@@ -42,17 +88,25 @@ class Response implements ResponseInterface
         $this->cardNumber = $cardNumber;
     }
 
-
+    /**
+     * {@inheritDoc}
+     */
     public function getStatus()
     {
         return $this->isApproved() ?
             ResponseInterface::STATUS_APPROVED : $this->getErrorStatus($this->getErrorCode());
     }
 
+    /**
+     * Parse the given error code to response status.
+     *
+     * @param $errorCode
+     * @return int|string
+     */
     public function getErrorStatus($errorCode)
     {
         foreach (self::$errorStatuses as $status => $codes) {
-            if (in_array($this->errorCode, $codes)) {
+            if (in_array($errorCode, $codes)) {
                 return $status;
             }
         }
@@ -60,16 +114,25 @@ class Response implements ResponseInterface
         return ResponseInterface::STATUS_DECLINED;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getMessage()
     {
         return $this->errorDescription;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getBillable()
     {
         return $this->billable;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function validate()
     {
         $this->getValidator()->handle(
@@ -78,27 +141,50 @@ class Response implements ResponseInterface
         );
     }
 
+    /**
+     * Set the validator instance.
+     *
+     * @param TransactionValidator $validator
+     */
     public function setValidator(TransactionValidator $validator)
     {
         $this->validator = $validator;
     }
 
+    /**
+     * Get the card number.
+     *
+     * @return string
+     */
     public function getCardNumber()
     {
         return $this->cardNumber;
     }
 
+    /**
+     * Get the validator instance.
+     *
+     * @return TransactionValidator
+     */
     public function getValidator()
     {
         return $this->validator ?
             $this->validator : App::make('Selmonal\Payment\Gateways\Golomt\TransactionValidator');
     }
 
+    /**
+     * Get the error code.
+     *
+     * @return string
+     */
     public function getErrorCode()
     {
         return $this->errorCode;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function isApproved()
     {
         return $this->success == 0;

@@ -13,6 +13,8 @@ use Selmonal\Payment\Exceptions\UnsupportedPaymentGatewayException;
 class PaymentManager implements GatewayInterface
 {
     /**
+     * The current gateway.
+     *
      * @var GatewayInterface
      */
     protected $gateway;
@@ -28,6 +30,8 @@ class PaymentManager implements GatewayInterface
     }
 
     /**
+     * Change the current gateway.
+     *
      * @param GatewayInterface $gateway
      */
     public function setGateway(GatewayInterface $gateway)
@@ -36,6 +40,8 @@ class PaymentManager implements GatewayInterface
     }
 
     /**
+     * Change the current gateway using a gateway name.
+     *
      * @param $gatewayName
      * @return $this
      * @throws UnsupportedPaymentGatewayException
@@ -48,6 +54,8 @@ class PaymentManager implements GatewayInterface
     }
 
     /**
+     * Get the current gateway.
+     *
      * @return GatewayInterface
      */
     public function getGateway()
@@ -56,6 +64,9 @@ class PaymentManager implements GatewayInterface
     }
 
     /**
+     * Make a redirect form. That redirects to the gateway
+     * bank terminal.
+     *
      * @param  BillableInterface $billable
      * @return RedirectForm
      */
@@ -65,6 +76,8 @@ class PaymentManager implements GatewayInterface
     }
 
     /**
+     * Handle a response that responded by the bank.
+     *
      * @param BillableInterface $billable
      * @param array $params
      * @return ResponseInterface
@@ -75,6 +88,8 @@ class PaymentManager implements GatewayInterface
     }
 
     /**
+     * Make a gateway instance by the given name.
+     *
      * @param $gatewayName
      * @throws UnsupportedPaymentGatewayException
      */
