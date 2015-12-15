@@ -7,7 +7,8 @@
 
 namespace Selmonal\Payment;
 
-use App;
+use Illuminate\Support\Facades\App;
+use Selmonal\Payment\Exceptions\UnsupportedPaymentGatewayException;
 
 class PaymentManager implements GatewayInterface
 {
