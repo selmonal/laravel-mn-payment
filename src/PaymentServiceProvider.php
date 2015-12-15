@@ -24,7 +24,8 @@ class PaymentServiceProvider extends ServiceProvider
         $this->app->bindShared('Selmonal\Payment\Gateways\Golomt\Gateway', function () {
             return new GolomtGateway(
                 Config::get('payment.gateways.golomt.merchant_id'),
-                Config::get('payment.gateways.golomt.request_action')
+                Config::get('payment.gateways.golomt.request_action'),
+                Config::get('payment.gateways.golomt.subID')
             );
         });
 

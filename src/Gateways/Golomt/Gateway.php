@@ -12,12 +12,13 @@ class Gateway implements GatewayInterface
 {
     private $merchantId;
     private $requestAction;
+    private $subID;
 
-    public function __construct($merchantId, $requestAction)
+    public function __construct($merchantId, $requestAction, $subID)
     {
         $this->merchantId = $merchantId;
-
         $this->requestAction = $requestAction;
+        $this->subID = $subID;
     }
 
     /**
@@ -31,6 +32,7 @@ class Gateway implements GatewayInterface
         $form->putParam('trans_amount', $billable->getPaymentPrice());
         $form->putParam('trans_number', $billable->getBillableId());
         $form->putParam('key_number', $this->merchantId);
+        $form->putParam('subID', $this->subID);
 
         return $form;
     }

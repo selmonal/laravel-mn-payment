@@ -29,10 +29,11 @@ app/config/payment.php тохиргооны файлыг үүсгэн дараа
             'gateways' => array(
                 'golomt' => array(
                     'merchant_id' => '',
+                    'subID' => '1',
                     'soap_username' => '',
                     'soap_password' => '',
                     'request_action' => '',
-                    'wsdl' => ''
+                    'wsdl' => '',                    
                 )
             )
         );
