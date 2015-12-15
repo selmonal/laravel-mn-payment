@@ -43,6 +43,10 @@ class TransactionValidator
      */
     public function handle($trans_key, $amount, $date = null)
     {
+        if(! is_numeric($amount)) {
+            throw new \InvalidArgumentException('Amount argument should be positive numeric value: '. $amount);
+        }
+
         $client = $this->makeClient();
 
         $result = $client->call('Get_new', $this->getParams($trans_key, $amount, $date), '', '', false, true);
