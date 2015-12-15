@@ -16,5 +16,7 @@ interface ResponseInterface
 
     public function getBillable();
 
+    public function isApproved();
+
     public function validate();
 }

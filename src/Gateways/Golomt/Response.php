@@ -2,6 +2,7 @@
 
 namespace Selmonal\Payment\Gateways\Golomt;
 
+use Illuminate\Support\Facades\App;
 use Selmonal\Payment\BillableInterface;
 use Selmonal\Payment\ResponseInterface;
 
@@ -10,16 +11,19 @@ class Response implements ResponseInterface
     /**
      * @var array
      */
-    private static $errorCodes = [
-        ResponseInterface::STATUS_APPROVED => ['000'],
-        ResponseInterface::STATUS_CANCELLED_BY_CARDHOLDER => ['203'],
+    private static $errorStatuses = [
+        ResponseInterface::STATUS_CANCELLED_BY_CARDHOLDER => [
+            '203'
+        ],
         ResponseInterface::STATUS_DECLINED => [
             '202', '305', '300-12', '300-14', '300-51', '300-54', '300-58'
         ],
         ResponseInterface::STATUS_FAILED => [
             '201', '300-89', '902-96'
         ],
-        ResponseInterface::STATUS_TIMED_OUT => ['902-91']
+        ResponseInterface::STATUS_TIMED_OUT => [
+            '902-91'
+        ]
     ];
 
     private $billable;
@@ -41,7 +45,13 @@ class Response implements ResponseInterface
 
     public function getStatus()
     {
-        foreach (self::$errorCodes as $status => $codes) {
+        return $this->isApproved() ?
+            ResponseInterface::STATUS_APPROVED : $this->getErrorStatus($this->getErrorCode());
+    }
+
+    public function getErrorStatus($errorCode)
+    {
+        foreach (self::$errorStatuses as $status => $codes) {
             if (in_array($this->errorCode, $codes)) {
                 return $status;
             }
@@ -81,6 +91,16 @@ class Response implements ResponseInterface
     public function getValidator()
     {
         return $this->validator ?
-            $this->validator : \App::make('Selmonal\Payment\Gateways\Golomt\TransactionValidator');
+            $this->validator : App::make('Selmonal\Payment\Gateways\Golomt\TransactionValidator');
+    }
+
+    public function getErrorCode()
+    {
+        return $this->errorCode;
+    }
+
+    public function isApproved()
+    {
+        return $this->success == 0;
     }
 }

@@ -31,9 +31,4 @@ interface BillableInterface
      * @return integer|mix
      */
     public function getBillableId();
-
-    /**
-     * @return mixed
-     */
-    public function getLangCode();
 }

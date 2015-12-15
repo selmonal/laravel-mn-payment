@@ -30,10 +30,11 @@ app/config/payment.php тохиргооны файлыг үүсгэн дараа
                 'golomt' => array(
                     'merchant_id' => '',
                     'subID' => '1',
+                    'lang' => '1',
                     'soap_username' => '',
                     'soap_password' => '',
                     'request_action' => '',
-                    'wsdl' => '',                    
+                    'wsdl' => '',
                 )
             )
         );

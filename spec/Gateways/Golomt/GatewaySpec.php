@@ -32,11 +32,12 @@ class GatewaySpec extends ObjectBehavior
 
         $form->shouldHaveType('Selmonal\Payment\RedirectForm');
 
-        $form->getParams()->shouldHaveCount(4);
+        $form->getParams()->shouldHaveCount(5);
         $form->getParams()->shouldHaveKeyWithValue('trans_amount', 500);
         $form->getParams()->shouldHaveKeyWithValue('trans_number', 'billable-id');
         $form->getParams()->shouldHaveKeyWithValue('key_number', 'merchant-id');
         $form->getParams()->shouldHaveKeyWithValue('subID', 1);
+        $form->getParams()->shouldHaveKeyWithValue('lang', 1);
         $form->getMethod()->shouldEqual('POST');
         $form->getAction()->shouldEqual('request-action');
     }
