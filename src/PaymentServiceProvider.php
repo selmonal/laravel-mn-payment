@@ -40,7 +40,7 @@ class PaymentServiceProvider extends ServiceProvider
         $this->app->bindShared('Selmonal\Payment\PaymentManager', function () {
             $manager = new PaymentManager();
 
-            return $manager->using(Config::get('payment.gateways.default'));
+            return $manager->using(Config::get('payment.default'));
         });
     }
 }
