@@ -37,7 +37,7 @@ class PaymentManagerSpec extends ObjectBehavior
         $this->getGateway()->shouldEqual($gateway);
     }
 
-    function it_should_throw_an_exception_when_invalid_gateway_provided()
+    function it_should_throw_an_exception_when_an_invalid_gateway_provided_to_using()
     {
         $this->shouldThrow('Selmonal\Payment\Exceptions\UnsupportedPaymentGatewayException')->duringUsing('invalid-gateway');
     }
