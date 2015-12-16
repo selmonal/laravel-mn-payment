@@ -70,9 +70,9 @@ class PaymentManager implements GatewayInterface
      * @param  BillableInterface $billable
      * @return RedirectForm
      */
-    public function makeRequestForm(BillableInterface $billable)
+    public function makeRequestForm(BillableInterface $billable, $lang = 'mn')
     {
-        return $this->getGateway()->makeRequestForm($billable);
+        return $this->getGateway()->makeRequestForm($billable, $lang);
     }
 
     /**

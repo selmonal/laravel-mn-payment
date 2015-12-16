@@ -30,7 +30,6 @@ app/config/payment.php тохиргооны файлыг үүсгэн дараа
                 'golomt' => array(
                     'merchant_id' => '',
                     'subID' => '1',
-                    'lang' => '1',
                     'soap_username' => '',
                     'soap_password' => '',
                     'request_action' => '',
@@ -78,11 +77,6 @@ Usage
          * @return integer|mix
          */
         public function getBillableId() { return $this->id; }
-
-        /**
-         * @return mixed
-         */
-        public function getLangCode() { return 'mn'; }
     }
 
 Төлбөр төлөх банкны хуудас уруу үсрэх.
@@ -93,7 +87,7 @@ Usage
         $order->payment_amount = Input::get('payment_amount');
         $order->save();
 
-        $form = Payment::using('golomt')->makeRequestForm($order);
+        $form = Payment::using('golomt')->makeRequestForm($order, 'mn'); // en
 
         return $form->render(); // Энд шууд автоматаар redirect хийх html кодыг зурах болно.
 

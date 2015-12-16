@@ -37,9 +37,17 @@ class GatewaySpec extends ObjectBehavior
         $form->getParams()->shouldHaveKeyWithValue('trans_number', 'billable-id');
         $form->getParams()->shouldHaveKeyWithValue('key_number', 'merchant-id');
         $form->getParams()->shouldHaveKeyWithValue('subID', 1);
-        $form->getParams()->shouldHaveKeyWithValue('lang', 1);
+        $form->getParams()->shouldHaveKeyWithValue('lang', 0);
         $form->getMethod()->shouldEqual('POST');
         $form->getAction()->shouldEqual('request-action');
+
+        $form = $this->makeRequestForm($billable, 'mn');
+        $form->getParams()->shouldHaveKeyWithValue('lang', 0);
+
+        $form = $this->makeRequestForm($billable, 'en');
+        $form->getParams()->shouldHaveKeyWithValue('lang', 1);
+
+        $this->shouldThrow('InvalidArgumentException')->duringMakeRequestForm($billable, 'invalid');
     }
 
     public function it_handles_a_response(BillableInterface $billable)

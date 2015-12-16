@@ -10,6 +10,11 @@ use Selmonal\Payment\ResponseInterface;
 
 class Gateway implements GatewayInterface
 {
+    public static $langs = [
+        'en' => 1,
+        'mn' => 0
+    ];
+
     /**
      * The merchant id.
      *
@@ -33,14 +38,6 @@ class Gateway implements GatewayInterface
     private $subID;
 
     /**
-     * The language code of the bank terminal.
-     * 0 - mn, 2 - en
-     *
-     * @var string
-     */
-    private $lang;
-
-    /**
      * Gateway Constructgor.
      *
      * @param $merchantId
@@ -48,19 +45,18 @@ class Gateway implements GatewayInterface
      * @param int $subID
      * @param int $lang
      */
-    public function __construct($merchantId, $requestAction, $subID = 1, $lang = 1)
+    public function __construct($merchantId, $requestAction, $subID = 1)
     {
         $this->merchantId = $merchantId;
         $this->requestAction = $requestAction;
         $this->subID = $subID;
-        $this->lang = $lang;
     }
 
 
     /**
      * {@inheritDoc}
      */
-    public function makeRequestForm(BillableInterface $billable)
+    public function makeRequestForm(BillableInterface $billable, $lang = 'mn')
     {
         $form = new RedirectForm($this->requestAction, 'POST');
 
@@ -68,7 +64,7 @@ class Gateway implements GatewayInterface
         $form->putParam('trans_number', $billable->getBillableId());
         $form->putParam('key_number', $this->merchantId);
         $form->putParam('subID', $this->subID);
-        $form->putParam('lang', $this->lang);
+        $form->putParam('lang', $this->getLangId($lang));
 
         return $form;
     }
@@ -91,5 +87,14 @@ class Gateway implements GatewayInterface
             $params['error_desc'],
             $params['card_number']
         );
+    }
+
+    private function getLangId($lang)
+    {
+        if(! array_key_exists($lang, self::$langs)) {
+            throw new \InvalidArgumentException('Lang must be en or mn.');
+        }
+
+        return self::$langs[$lang];
     }
 }

@@ -8,9 +8,10 @@ interface GatewayInterface
      * Банкны терминал хуудас уруу үсрэх формыг буцаана.
      *
      * @param  BillableInterface $billable
+     * @param  $lang
      * @return RedirectForm
      */
-    public function makeRequestForm(BillableInterface $billable);
+    public function makeRequestForm(BillableInterface $billable, $lang = 'mn');
 
     /**
      * Банкнаас буцаж ирсэн хариултыг боловсруулна.
