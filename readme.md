@@ -32,8 +32,8 @@ app/config/payment.php тохиргооны файлыг үүсгэн дараа
                     'subID' => '1',
                     'soap_username' => '',
                     'soap_password' => '',
-                    'request_action' => '',
-                    'wsdl' => '',
+                    'request_action' => '', // Банкнаас өгөх гарын авлага дээр байгаа.
+                    'wsdl' => '', // Банкнаас өгөх гарын авлага дээр байгаа.
                 )
             )
         );
