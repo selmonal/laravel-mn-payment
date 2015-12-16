@@ -5,28 +5,28 @@ namespace Selmonal\Payment;
 interface BillableInterface
 {
     /**
-     * Вальютийн код буцаана.
+     * Төлбөрын хийгдэх вальютийн код авах.
      * 
      * @return string
      */
     public function getCurrencyCode();
 
     /**
-     * Төлөх төлбөрийн мөнгөн дүн буцаана.
+     * Төлөх төлбөрийн тоон дүн авах.
      * 
      * @return double
      */
     public function getPaymentPrice();
 
     /**
-     * Төлбөрийн тухайн тайлбар.
+     * Төлбөрийн тухай тайлбар авах.
      * 
      * @return string
      */
     public function getPaymentDescription();
 
     /**
-     * Захиалгын дугаар буцаана.
+     * Төлбөрийг таних дугаар авах.
      * 
      * @return integer|mix
      */

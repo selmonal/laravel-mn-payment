@@ -7,19 +7,29 @@ use Selmonal\Payment\Exceptions\TransactionValidationException;
 class TransactionValidator
 {
     /**
+     * Soap username.
+     *
      * @var string
      */
     private $username;
+
     /**
+     * Soap password.
+     *
      * @var string
      */
     private $password;
+
     /**
+     * WSDL url.
+     *
      * @var string
      */
     private $wsdl;
 
     /**
+     * TransactionValidator Constructor.
+     *
      * @param $username
      * @param $password
      * @param $wsdl
@@ -43,7 +53,7 @@ class TransactionValidator
      */
     public function handle($trans_key, $amount, $date = null)
     {
-        if(! is_numeric($amount)) {
+        if (! is_numeric($amount)) {
             throw new \InvalidArgumentException('Amount argument should be positive numeric value: '. $amount);
         }
 

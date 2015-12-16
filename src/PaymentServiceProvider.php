@@ -25,8 +25,7 @@ class PaymentServiceProvider extends ServiceProvider
             return new GolomtGateway(
                 Config::get('payment.gateways.golomt.merchant_id'),
                 Config::get('payment.gateways.golomt.request_action'),
-                Config::get('payment.gateways.golomt.subID'),
-                Config::get('payment.gateways.golomt.lang')
+                Config::get('payment.gateways.golomt.subID')
             );
         });
 

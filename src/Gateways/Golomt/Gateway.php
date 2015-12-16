@@ -10,24 +10,53 @@ use Selmonal\Payment\ResponseInterface;
 
 class Gateway implements GatewayInterface
 {
-    private $merchantId;
-    private $requestAction;
-    private $subID;
-    private $lang;
+    public static $langs = [
+        'en' => 1,
+        'mn' => 0
+    ];
 
-    public function __construct($merchantId, $requestAction, $subID = 1, $lang = 1)
+    /**
+     * The merchant id.
+     *
+     * @var string
+     */
+    private $merchantId;
+
+    /**
+     * The url of the bank terminal page.
+     *
+     * @var string
+     */
+    private $requestAction;
+
+    /**
+     * Голомт банк 3 ширхэг буцах хаяг бүртгэх боломжтой байдаг.
+     * Энд 1,2,3 гэсэн утга оноогдоно.
+     *
+     * @var string
+     */
+    private $subID;
+
+    /**
+     * Gateway Constructgor.
+     *
+     * @param $merchantId
+     * @param $requestAction
+     * @param int $subID
+     * @param int $lang
+     */
+    public function __construct($merchantId, $requestAction, $subID = 1)
     {
         $this->merchantId = $merchantId;
         $this->requestAction = $requestAction;
         $this->subID = $subID;
-        $this->lang = $lang;
     }
 
+
     /**
-     * @param  BillableInterface $billable
-     * @return RedirectForm
+     * {@inheritDoc}
      */
-    public function makeRequestForm(BillableInterface $billable)
+    public function makeRequestForm(BillableInterface $billable, $lang = 'mn')
     {
         $form = new RedirectForm($this->requestAction, 'POST');
 
@@ -35,14 +64,13 @@ class Gateway implements GatewayInterface
         $form->putParam('trans_number', $billable->getBillableId());
         $form->putParam('key_number', $this->merchantId);
         $form->putParam('subID', $this->subID);
-        $form->putParam('lang', $this->lang);
+        $form->putParam('lang', $this->getLangId($lang));
 
         return $form;
     }
 
     /**
-     * @param BillableInterface $billable
-     * @param array $params
+     * {@inheritDoc}
      * @return ResponseInterface
      * @throws InvalidResponseException
      */
@@ -59,5 +87,14 @@ class Gateway implements GatewayInterface
             $params['error_desc'],
             $params['card_number']
         );
+    }
+
+    private function getLangId($lang)
+    {
+        if(! array_key_exists($lang, self::$langs)) {
+            throw new \InvalidArgumentException('Lang must be en or mn.');
+        }
+
+        return self::$langs[$lang];
     }
 }
