@@ -1,10 +1,10 @@
-Laravel 4.2.* MN Payment
+Laravel 5.1.* MN Payment
 ===============
 
 Requirements
 ------------
 
-- PHP >= 5.4.0
+- PHP >= 5.5.9
 - [Composer](http://getcomposer.org/).
 
 Installation
