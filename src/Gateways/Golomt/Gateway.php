@@ -38,35 +38,32 @@ class Gateway implements GatewayInterface
     private $subID;
 
     /**
-     * Gateway Constructgor.
+     * @var string
+     */
+    private $callback;
+
+    /**
+     * @var string
+     */
+    private $lang;
+
+    /**
+     * @var array
+     */
+    private $additional = [];
+
+    /**
+     * Gateway Constructor.
      *
      * @param $merchantId
      * @param $requestAction
      * @param int $subID
-     * @param int $lang
      */
     public function __construct($merchantId, $requestAction, $subID = 1)
     {
         $this->merchantId = $merchantId;
         $this->requestAction = $requestAction;
         $this->subID = $subID;
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    public function makeRequestForm(BillableInterface $billable, $lang = 'mn')
-    {
-        $form = new RedirectForm($this->requestAction, 'POST');
-
-        $form->putParam('trans_amount', $billable->getPaymentPrice());
-        $form->putParam('trans_number', $billable->getBillableId());
-        $form->putParam('key_number', $this->merchantId);
-        $form->putParam('subID', $this->subID);
-        $form->putParam('lang', $this->getLangId($lang));
-
-        return $form;
     }
 
     /**
@@ -89,6 +86,10 @@ class Gateway implements GatewayInterface
         );
     }
 
+    /**
+     * @param $lang
+     * @return mixed
+     */
     private function getLangId($lang)
     {
         if(! array_key_exists($lang, self::$langs)) {
@@ -96,5 +97,64 @@ class Gateway implements GatewayInterface
         }
 
         return self::$langs[$lang];
+    }
+
+    /**
+     * Банкны терминал хуудас уруу үсрэх формыг буцаана.
+     *
+     * @param  BillableInterface $billable
+     * @return RedirectForm
+     */
+    public function make(BillableInterface $billable)
+    {
+        $form = new RedirectForm($this->requestAction, 'POST');
+
+        $form->putParam('trans_amount', $billable->getPaymentPrice());
+        $form->putParam('trans_number', $billable->getBillableId());
+        $form->putParam('key_number', $this->merchantId);
+        $form->putParam('subID', $this->subID);
+        $form->putParam('lang', $this->getLangId($this->lang()));
+
+        return $form;
+    }
+
+    /**
+     * Буцах хаяг оноох
+     *
+     * @param $callback
+     * @return $this
+     */
+    public function callback($callback)
+    {
+        $this->callback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Банкны харагдацын хэл сонгох.
+     *
+     * @param $lang
+     * @return $this
+     */
+    public function lang($lang)
+    {
+        $this->lang = $lang;
+
+        return $this;
+    }
+
+    /**
+     * Нэмэлт параметер утга оноох
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function put($key, $value)
+    {
+        $this->additional[$key] = $value;
+
+        return $this;
     }
 }

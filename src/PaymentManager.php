@@ -1,9 +1,4 @@
 <?php
-/**
- * User: selmonal
- * Date: 12/13/15
- * Time: 8:09 PM
- */
 
 namespace Selmonal\Payment;
 
@@ -46,7 +41,7 @@ class PaymentManager implements GatewayInterface
      * @return $this
      * @throws UnsupportedPaymentGatewayException
      */
-    public function using($gatewayName)
+    public function with($gatewayName)
     {
         $this->setGateway($this->makeGatewayUsingName($gatewayName));
 
@@ -61,18 +56,6 @@ class PaymentManager implements GatewayInterface
     public function getGateway()
     {
         return $this->gateway;
-    }
-
-    /**
-     * Make a redirect form. That redirects to the gateway
-     * bank terminal.
-     *
-     * @param  BillableInterface $billable
-     * @return RedirectForm
-     */
-    public function makeRequestForm(BillableInterface $billable, $lang = 'mn')
-    {
-        return $this->getGateway()->makeRequestForm($billable, $lang);
     }
 
     /**
@@ -99,6 +82,59 @@ class PaymentManager implements GatewayInterface
             return App::make('Selmonal\Payment\Gateways\Golomt\Gateway');
         }
 
+        if ($gatewayName == 'khan') {
+            return App::make('Selmonal\Payment\Gateways\Khan\Gateway');
+        }
+
         throw new UnsupportedPaymentGatewayException($gatewayName);
+    }
+
+    /**
+     * Банкны терминал хуудас уруу үсрэх формыг буцаана.
+     *
+     * @param  BillableInterface $billable
+     * @return RedirectForm
+     */
+    public function make(BillableInterface $billable)
+    {
+        return $this->getGateway()->make($billable);
+    }
+
+    /**
+     * Буцах хаяг оноох
+     *
+     * @param $callback
+     * @return $this
+     */
+    public function callback($callback)
+    {
+        $this->getGateway()->callback($callback);
+
+        return $this;
+    }
+
+    /**
+     * Банкны харагдацын хэл сонгох.
+     *
+     * @param $lang
+     * @return $this
+     */
+    public function lang($lang)
+    {
+        $this->getGateway()->lang($lang);
+
+        return $this;
+    }
+
+    /**
+     * Нэмэлт параметер утга оноох
+     *
+     * @param $key
+     * @param $value
+     * @return $this
+     */
+    public function put($key, $value)
+    {
+        $this->getGateway()->put($key, $value);
     }
 }

@@ -16,27 +16,31 @@ Installation
 
 Тохиргооны app.php файлд дараахь ServiceProvider - ийг бүртгэнэ.
 
-    'Selmonal\Payment\PaymentServiceProvider'
+    Selmonal\Payment\PaymentServiceProvider::class
 
 Мөн aliases хэсэгт дараахь Facade - ийг бүртгэнэ.
 
-    'Payment' => 'Selmonal\Payment\PaymentFacade'
+    'Payment' => Selmonal\Payment\PaymentFacade::class
 
 app/config/payment.php тохиргооны файлыг үүсгэн дараахь тохиргоог бүртгэнэ.
 
-    return array(
-            'default' => 'golomt',
-            'gateways' => array(
-                'golomt' => array(
-                    'merchant_id' => '',
-                    'subID' => '1',
-                    'soap_username' => '',
-                    'soap_password' => '',
-                    'request_action' => '', // Банкнаас өгөх гарын авлага дээр байгаа.
-                    'wsdl' => '', // Банкнаас өгөх гарын авлага дээр байгаа.
-                )
-            )
-        );
+    return [
+        'default' => 'golomt',
+        'gateways' => [
+            'golomt' => [
+                'merchant_id' => '',
+                'subID' => '1',
+                'soap_username' => '',
+                'soap_password' => '',
+                'request_action' => '', // Банкнаас өгөх гарын авлага дээр байгаа.
+                'wsdl' => '', // Банкнаас өгөх гарын авлага дээр байгаа.
+            ],
+            'khan' => [
+                'username' => '',
+                'password' => ''
+            ]
+        ]
+    ];
 
 Contributing
 ------------
@@ -87,7 +91,11 @@ Usage
         $order->payment_amount = Input::get('payment_amount');
         $order->save();
 
-        $form = Payment::using('golomt')->makeRequestForm($order, 'mn'); // en
+        $form = Payment::with('golomt')
+            ->callback('callback_url')
+            ->put('custom', 'custom')
+            ->lang('mn')
+            ->make($order); // en
 
         return $form->render(); // Энд шууд автоматаар redirect хийх html кодыг зурах болно.
 

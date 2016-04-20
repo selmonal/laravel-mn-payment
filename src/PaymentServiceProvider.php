@@ -1,15 +1,12 @@
 <?php
-/**
- * User: selmonal
- * Date: 12/13/15
- * Time: 7:00 PM
- */
 
 namespace Selmonal\Payment;
 
 use Config;
+use GuzzleHttp\Client;
 use Illuminate\Support\ServiceProvider;
 use Selmonal\Payment\Gateways\Golomt\Gateway as GolomtGateway;
+use Selmonal\Payment\Gateways\Khan\Gateway as KhanGateway;
 use Selmonal\Payment\Gateways\Golomt\TransactionValidator;
 
 class PaymentServiceProvider extends ServiceProvider
@@ -20,6 +17,23 @@ class PaymentServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
+    {
+        $this->registerGolomt();
+        $this->registerKhan();
+
+        $this->app->bindShared('Selmonal\Payment\PaymentManager', function () {
+
+            $manager = new PaymentManager();
+
+            return $manager->with(Config::get('payment.default'));
+
+        });
+    }
+
+    /**
+     * Голомт банкийг бүртгэх.
+     */
+    private function registerGolomt()
     {
         $this->app->bindShared('Selmonal\Payment\Gateways\Golomt\Gateway', function () {
             return new GolomtGateway(
@@ -36,11 +50,19 @@ class PaymentServiceProvider extends ServiceProvider
                 Config::get('payment.gateways.golomt.wsdl')
             );
         });
+    }
 
-        $this->app->bindShared('Selmonal\Payment\PaymentManager', function () {
-            $manager = new PaymentManager();
-
-            return $manager->using(Config::get('payment.default'));
+    /**
+     * Хаан банкийг бүртгэх
+     */
+    private function registerKhan()
+    {
+        $this->app->bindShared('Selmonal\Payment\Gateways\Khan\Gateway', function () {
+            return new KhanGateway(
+                new Client(),
+                Config::get('payment.gateways.khan.username'),
+                Config::get('payment.gateways.khan.password')
+            );
         });
     }
 }
